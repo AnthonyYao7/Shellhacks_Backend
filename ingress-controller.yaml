@@ -1,0 +1,56 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: athlete-ai-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "athlete-ai-host"
+#    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+spec:
+  rules:
+    - host: athleteai.tech
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: athlete-ai-service
+                port:
+                  number: 3000
+          - path: /_next/
+            pathType: Prefix
+            backend:
+              service:
+                name: athlete-ai-service
+                port:
+                  number: 3000
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: athlete-ai-service
+                port:
+                  number: 3000
+          - path: /try
+            pathType: Prefix
+            backend:
+              service:
+                name: athlete-ai-service
+                port:
+                  number: 3000
+          - path: /upload
+            pathType: Prefix
+            backend:
+              service:
+                name: athlete-ai-service
+                port:
+                  number: 8001
+#          - path: /admin
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: athlete-ai-service
+#                port:
+#                  number: 8001
+---

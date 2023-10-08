@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: athlete-ai-gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: athlete-ai-gke
+  template:
+    metadata:
+      labels:
+        app: athlete-ai-gke
+    spec:
+      containers:
+      - name: athlete-ai-backend
+        imagePullPolicy: IfNotPresent
+#        image: athlete_ai/backend
+        image: us-east1-docker.pkg.dev/athleteai-400513/service-containers/athlete_ai/backend:version1
+#        ports:
+#          - containerPort: 8001
+#            hostPort: 8001
+        resources:
+          requests:
+            memory: "5Gi"
+            cpu: "4.0"
+            ephemeral-storage: "5Gi"
+          limits:
+            memory: "5Gi"
+            cpu: "4.0"
+            ephemeral-storage: "5Gi"
+      - name: athlete-ai-frontend
+        imagePullPolicy: IfNotPresent
+#        image: athlete_ai/frontend
+        image: us-east1-docker.pkg.dev/athleteai-400513/service-containers/athlete_ai/frontend:latest
+#        ports:
+#          - containerPort: 3000
+#            hostPort: 3000
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "3Gi"
+            cpu: "500m"
+            ephemeral-storage: "1Gi"
+---
